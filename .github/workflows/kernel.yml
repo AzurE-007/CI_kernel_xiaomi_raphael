@@ -1,0 +1,30 @@
+name: Kernel Builder
+
+on:
+  workflow_dispatch:
+  
+env:
+  BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+  TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+  
+  # SourceForge Credentials
+  SF_USERNAME: ${{ secrets.SF_USERNAME }}
+  SF_PASS: ${{ secrets.SF_PASSWORD }}
+  SF_PROJECT: alchemist-roms
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setting up build environment 
+        run: |
+          sudo apt update -y
+          sudo apt-get install -y bc bison build-essential clang cpio curl gcc git libc6 libssl-dev libstdc++6 make python3-pip wget zip zipalign 
+          
+      - name: Build Kernel
+        timeout-minutes: 340
+        continue-on-error: true
+        run: |
+          bash build.sh
+
