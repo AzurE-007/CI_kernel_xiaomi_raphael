@@ -69,7 +69,7 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 
 #Starting Compilation
-msg "<b>$github.run_id CI Build Triggered</b>"
+msg "<b>$BUILD_ID CI Build Triggered</b>"
 
 BUILD_START=$(date +"%s")
 export ARCH=arm64
