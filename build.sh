@@ -69,7 +69,7 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 
 #Starting Compilation
-msg "<b>$github.run_id CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>VERSION</code>%0A<b>Date : </b><code>$DATE</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Pipeline Host : </b><code>$KBUILD_BUILD_HOST</code>%0A<b>Host Core Count : </b><code>$CORES</code>%0A<b>Compiler Used : </b><code>COMPILER</code>%0A<b>Branch : </b><code>BRANCH</code>"
+msg "<b>CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>VERSION</code>%0A<b>Date : </b><code>$DATE</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Pipeline Host : </b><code>$KBUILD_BUILD_HOST</code>%0A<b>Host Core Count : </b><code>$CORES</code>%0A<b>Compiler Used : </b><code>COMPILER</code>%0A<b>Branch : </b><code>BRANCH</code>"
 BUILD_START=$(date +"%s")
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
