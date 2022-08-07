@@ -25,7 +25,7 @@ jobs:
       - name: Setting up build environment 
         run: |
           sudo apt update -y
-          sudo apt-get install -y bc bison build-essential clang cpio curl gcc git libc6 libssl-dev libstdc++6 make python3-pip wget zip zipalign 
+          sudo apt-get install -y bc bison build-essential clang cpio curl gcc git libc6 libncurses5-dev libssl-dev libstdc++6 make python3-pip unzip wget zip zipalign 
           
       - name: Build Kernel
         timeout-minutes: 340
