@@ -48,30 +48,29 @@ file() {
 git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-#git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b staging $WORKING_DIR/kernel
+git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b staging $WORKING_DIR/kernel
 
 # Cloning Toolchain
-#git clone https://github.com/kdrag0n/proton-clang.git toolchain
+git clone https://github.com/kdrag0n/proton-clang.git toolchain
 
 # Change Directory to the Source Directry 
-#cd $WORKING_DIR/kernel
+cd $WORKING_DIR/kernel
 
 # Build Info Variables
-DEVICE="Mi 9TPro | Redmi K20Pro"
+DEVICE="Mi 9T Pro | Redmi K20 Pro"
 DATE=$(TZ=GMT-5:30 date +%d'-'%m'-'%y'_'%I':'%M)
-#VERSION=$(make kernelversion)
+VERSION=$(make kernelversion)
 DISTRO=$(source /etc/os-release && echo $NAME)
 CORES=$(nproc --all)
-#BRANCH=$(git rev-parse --abbrev-ref HEAD)
-#COMMIT_LOG=$(git log --oneline -n 1)
-#COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
-export KBUILD_BUILD_USER="Azure"
-export KBUILD_BUILD_HOST="Server"
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+COMMIT_LOG=$(git log --oneline -n 1)
+COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 #Starting Compilation
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Jakarta date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$CORES</code>"
-
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>VERSION</code>%0A<b>Date : </b><code>$(TZ=Asia/Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$CORES</code>%0A<b>Compiler Used : </b><code>COMPILER</code>"
 BUILD_START=$(date +"%s")
+export KBUILD_BUILD_USER="Azure"
+export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
 cd $WORKING_DIR/kernel
@@ -104,8 +103,7 @@ rm -rf $WORKING_DIR/Anykernel/IMMENSiTY-$DATE.zip
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
-#Upload Kernel
-
+#Upload Kernel ZIP
 file "$WORKING_DIR/IMMENSiTY-ext-RAPHAEL-$DATE.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 
 else
