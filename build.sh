@@ -64,10 +64,10 @@ DISTRO=$(source /etc/os-release && echo $NAME)
 CORES=$(nproc --all)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 COMMIT_LOG=$(git log --oneline -n 1)
-COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+#COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 #Starting Compilation
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$VERSION</code>%0A<b>Date : </b><code>$(TZ=Asia/Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$CORES</code>%0A<b>Compiler Used : </b><code>$COMPILER</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$VERSION</code>%0A<b>Date : </b><code>$(TZ=Asia/Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$CORES</code>"
 BUILD_START=$(date +"%s")
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
