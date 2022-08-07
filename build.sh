@@ -1,11 +1,35 @@
-#!bin/bash
+#! /bin/bash
+# shellcheck disable=SC2154
+
+ # Script For Building Android arm64 Kernel
+ #
+ # Copyright (c) 2018-2021 Panchajanya1999 <rsk52959@gmail.com>
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ #
+ #      http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+
+#Kernel building script
+
+# Bail out if script fails
+set -e
 
 # Working Directory
 WORKING_DIR=~/
 
 # Functions For Telegram Post
 msg() {
-	curl -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" -d chat_id="$TG_CHAT_ID" \
+	curl -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+        -d chat_id="$TG_CHAT_ID" \
 	-d "disable_web_page_preview=true" \
 	-d "parse_mode=html" \
 	-d text="$1"
@@ -41,13 +65,13 @@ CORES=$(nproc --all)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 COMMIT_LOG=$(git log --oneline -n 1)
 COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
-
-#Starting Compilation
-msg "<b>========IMMENSiTY-ext-RAPHAEL========</b>%0A<b>Kernel Build Triggered !!</b>"
-BUILD_START=$(date +"%s")
-export ARCH=arm64
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
+
+#Starting Compilation
+msg "<b>$github.run_id CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$VERSION</code>%0A<b>Date : </b><code>$DATE</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Pipeline Host : </b><code>$KBUILD_BUILD_HOST</code>%0A<b>Host Core Count : </b><code>$CORES</code>%0A<b>Compiler Used : </b><code>$COMPILER</code>%0A<b>Branch : </b><code>$BRANCH</code>%0A<b>Top Commit : </b><a href='$COMMIT_LOG'>COMMIT LOG</a>"
+BUILD_START=$(date +"%s")
+export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
 cd $WORKING_DIR/kernel
 make O=out raphael_defconfig
