@@ -44,30 +44,28 @@ DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler Used : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
-args="                            ARCH=arm64 \
-                                  O=../out \
-                                  CC=clang \
-                                  AR=llvm-ar \
-                                  NM=llvm-nm \
-                                  OBJCOPY=llvm-objcopy \
-                                  OBJDUMP=llvm-objdump \
-                                  STRIP=llvm-strip \
-                                  LD=ld.lld \
-                                  HOSTCC=clang \
-                                  HOSTLD=ld.lld \
-                                  HOSTAR=llvm-ar \
-                                  HOSTCXX=clang++ \
-                                  CLANG_TRIPLE=aarch64-linux-gnu- \
-                                  CROSS_COMPILE=aarch64-linux-gnu- \
-                                  CROSS_COMPILE_ARM32=arm-linux-gnueabi- "
 cd $WORKING_DIR/kernel
-make ${args} raphael_defconfig
-make -j$(nproc --all) ${args}
+make O=out raphael_defconfig
+make -j$(nproc --all) O=../out \
+      CC=clang | tee log.txt \
+      AR=llvm-ar \
+      NM=llvm-nm \
+      OBJCOPY=llvm-objcopy \
+      OBJDUMP=llvm-objdump \
+      STRIP=llvm-strip \
+      LD=ld.lld \
+      HOSTCC=clang \
+      HOSTLD=ld.lld \
+      HOSTAR=llvm-ar \
+      HOSTCXX=clang++ \
+      CLANG_TRIPLE=aarch64-linux-gnu- \
+      CROSS_COMPILE=aarch64-linux-gnu- \
+      CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
 #Zipping Into Flashable Zip
 if [ -f out/arch/arm64/boot/Image.gz-dtb ]
