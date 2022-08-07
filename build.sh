@@ -48,13 +48,13 @@ file() {
 git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-# git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b staging $WORKING_DIR/kernel
+git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b staging $WORKING_DIR/kernel
 
 # Cloning Toolchain
-# git clone https://github.com/kdrag0n/proton-clang.git toolchain
+git clone https://github.com/kdrag0n/proton-clang.git toolchain
 
 # Change Directory to the Source Directry 
-# cd $WORKING_DIR/kernel
+cd $WORKING_DIR/kernel
 
 # Build Info Variables
 DEVICE="Mi  9T Pro & Redmi K20 Pro"
