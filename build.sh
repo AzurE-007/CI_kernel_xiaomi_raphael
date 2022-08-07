@@ -42,7 +42,7 @@ DISTRO=$(source /etc/os-release && echo $NAME)
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/NewDelhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
