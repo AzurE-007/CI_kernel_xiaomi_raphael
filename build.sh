@@ -39,7 +39,6 @@ cd $WORKING_DIR/kernel
 # Build Info Variables
 DEVICE="Mi 9T Pro | Redmi K20 Pro"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
