@@ -31,7 +31,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
-git clone https://github.com/kdrag0n/proton-clang.git -b master toolchain
+git clone https://github.com/kdrag0n/proton-clang.git -b master $WORKING_DIR/toolchain
 
 # Change Directory to the Source Directry 
 cd $WORKING_DIR/kernel
