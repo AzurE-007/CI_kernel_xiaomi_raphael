@@ -18,7 +18,7 @@ msg() {
 file() {
 	MD5=$(md5sum "$1" | cut -d' ' -f1)
 	curl --progress-bar -F document=@"$1" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
-	-d chat_id="$TG_CHAT_ID" \
+	-F chat_id="$TG_CHAT_ID" \
 	-F "disable_web_page_preview=true" \
 	-F "parse_mode=html" \
 	-F caption="$2 | <b>MD5 Checksum : </b><code>$MD5</code>"
