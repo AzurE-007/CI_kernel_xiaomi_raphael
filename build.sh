@@ -49,23 +49,25 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
+args="                            ARCH=arm64 \
+                                  O=../out \
+                                  CC=clang \
+                                  AR=llvm-ar \
+                                  NM=llvm-nm \
+                                  OBJCOPY=llvm-objcopy \
+                                  OBJDUMP=llvm-objdump \
+                                  STRIP=llvm-strip \
+                                  LD=ld.lld \
+                                  HOSTCC=clang \
+                                  HOSTLD=ld.lld \
+                                  HOSTAR=llvm-ar \
+                                  HOSTCXX=clang++ \
+                                  CLANG_TRIPLE=aarch64-linux-gnu- \
+                                  CROSS_COMPILE=aarch64-linux-gnu- \
+                                  CROSS_COMPILE_ARM32=arm-linux-gnueabi- "
 cd $WORKING_DIR/kernel
-make O=out raphael_defconfig
-make -j$(nproc --all) O=../out \
-      CC=clang | tee log.txt \
-      AR=llvm-ar \
-      NM=llvm-nm \
-      OBJCOPY=llvm-objcopy \
-      OBJDUMP=llvm-objdump \
-      STRIP=llvm-strip \
-      LD=ld.lld \
-      HOSTCC=clang \
-      HOSTLD=ld.lld \
-      HOSTAR=llvm-ar \
-      HOSTCXX=clang++ \
-      CLANG_TRIPLE=aarch64-linux-gnu- \
-      CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+make ${args} raphael_defconfig
+make -j$(nproc --all) ${args}
 
 #Zipping Into Flashable Zip
 if [ -f out/arch/arm64/boot/Image.gz-dtb ]
