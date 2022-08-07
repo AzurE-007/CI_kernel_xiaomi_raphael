@@ -4,18 +4,10 @@ on:
   workflow_dispatch:
   
 env:
-  RUNNER_OS: ${{ github.run_os }}
-  RUNNER_NAME: ${{ github.run_name }}
   BUILD_ID: ${{ github.run_number }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
   
-
-  # SourceForge Credentials
-  SF_USERNAME: ${{ secrets.SF_USERNAME }}
-  SF_PASS: ${{ secrets.SF_PASSWORD }}
-  SF_PROJECT: alchemist-roms
-
 jobs:
   build:
     runs-on: ubuntu-latest
