@@ -39,7 +39,7 @@ cd $WORKING_DIR/kernel
 # Build Info Variables
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR/toolchains/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//') 
+COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
 
 #Starting Compilation
