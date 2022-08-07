@@ -69,7 +69,7 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 
 #Starting Compilation
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$DATE</code>%0A<b>Device : </b><code>$DEVICE</code>
 
 BUILD_START=$(date +"%s")
 export ARCH=arm64
