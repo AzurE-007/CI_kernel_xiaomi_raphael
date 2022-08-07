@@ -6,7 +6,7 @@ on:
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "main"
+          default: "sapphire-staging"
   
 env:
   BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
