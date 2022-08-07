@@ -1,24 +1,4 @@
-#! /bin/bash
-# shellcheck disable=SC2154
-
- # Script For Building Android arm64 Kernel
- #
- # Copyright (c) 2018-2021 Panchajanya1999 <rsk52959@gmail.com>
- #
- # Licensed under the Apache License, Version 2.0 (the "License");
- # you may not use this file except in compliance with the License.
- # You may obtain a copy of the License at
- #
- #      http://www.apache.org/licenses/LICENSE-2.0
- #
- # Unless required by applicable law or agreed to in writing, software
- # distributed under the License is distributed on an "AS IS" BASIS,
- # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- # See the License for the specific language governing permissions and
- # limitations under the License.
- #
-
-#Kernel building script
+#!/usr/bin/env bash
 
 # Bail out if script fails
 set -e
@@ -60,13 +40,11 @@ cd $WORKING_DIR/kernel
 DEVICE="Mi 9T Pro | Redmi K20 Pro"
 DISTRO=$(source /etc/os-release && echo $NAME)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-CORES=$(nproc --all)
-KERVER=$(make kernelversion)
-#COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$RUNNER_OS</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/New Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$RUNNER_NAME</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/NewDelhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Branch: </b><code>$RUNNER_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
