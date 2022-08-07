@@ -2,8 +2,14 @@ name: Kernel Builder
 
 on:
   workflow_dispatch:
+    inputs:
+         BRANCH:
+          description: "Kernel Source Branch Name"
+          required: true
+          default: "main"
   
 env:
+  BRANCH: ${{ github.event.inputs.BRANCH }}
   BUILD_ID: ${{ github.run_number }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
