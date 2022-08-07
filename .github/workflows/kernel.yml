@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   
 env:
+  RUNNER_OS: ${{ github.run_os }}
+  RUNNER_NAME: ${{ github.run_name }}
   BUILD_ID: ${{ github.run_number }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
