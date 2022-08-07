@@ -28,7 +28,7 @@ file() {
 git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b staging $WORKING_DIR/kernel
+git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
 # git clone https://github.com/kdrag0n/proton-clang.git toolchain
@@ -39,12 +39,11 @@ cd $WORKING_DIR/kernel
 # Build Info Variables
 DEVICE="Mi 9T Pro | Redmi K20 Pro"
 DISTRO=$(source /etc/os-release && echo $NAME)
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
 COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/NewDelhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Branch: </b><code>$RUNNER_NAME</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/NewDelhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
