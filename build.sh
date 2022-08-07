@@ -49,7 +49,6 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
-cd $WORKING_DIR/kernel
 make O=out raphael_defconfig
 make -j$(nproc --all) O=out \
       AR=llvm-ar \
