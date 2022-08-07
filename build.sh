@@ -39,7 +39,7 @@ cd $WORKING_DIR/kernel
 # Build Info Variables
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
 DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
 
 #Starting Compilation
@@ -67,13 +67,15 @@ make -j$(nproc --all) O=out \
       CC=clang | tee log.txt
 
 #Zipping Into Flashable Zip
-if [ -f out/arch/arm64/boot/Image.gz-dtb ]
+if [ -f out/arch/arm64/boot/Image.gz-dtb ] && [ -f out/arch/arm64/boot/dtbo.img ];
 then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
+cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
 zip -r9 IMMENSiTY-ext-RAPHAEL-$DATE.zip * -x .git README.md */placeholder
 cp $WORKING_DIR/Anykernel/IMMENSiTY-ext-RAPHAEL-$DATE.zip $WORKING_DIR/
 rm -rf $WORKING_DIR/Anykernel/Image.gz-dtb
+rm -rf $WORKING_DIR/Anykernel/dtbo.img
 rm -rf $WORKING_DIR/Anykernel/IMMENSiTY-$DATE.zip
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
