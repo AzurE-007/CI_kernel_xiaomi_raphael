@@ -65,8 +65,8 @@ KERVER=$(make kernelversion)
 #COMPILER=$($WORKING_DIR/toolchains/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 #Starting Compilation
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$CORES</code>"
 BUILD_START=$(date +"%s")
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$RUNNER_OS</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/New Delhi date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Host Core Count: </b><code>$RUNNER_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
