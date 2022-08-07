@@ -51,8 +51,7 @@ export ARCH=arm64
 export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
 cd $WORKING_DIR/kernel
 make O=out raphael_defconfig
-make -j$(nproc --all) O=../out \
-      CC=clang | tee log.txt \
+make -j$(nproc --all) O=out \
       AR=llvm-ar \
       NM=llvm-nm \
       OBJCOPY=llvm-objcopy \
@@ -65,7 +64,8 @@ make -j$(nproc --all) O=../out \
       HOSTCXX=clang++ \
       CLANG_TRIPLE=aarch64-linux-gnu- \
       CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+      CC=clang | tee log.txt
 
 #Zipping Into Flashable Zip
 if [ -f out/arch/arm64/boot/Image.gz-dtb ]
