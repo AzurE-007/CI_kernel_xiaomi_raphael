@@ -57,7 +57,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 #cd $WORKING_DIR/kernel
 
 # Build Info Variables
-DEVICE="Mi  9T Pro & Redmi K20 Pro"
+DEVICE="Mi  9T Pro | Redmi K20 Pro"
 DATE=$(TZ=GMT-5:30 date +%d'-'%m'-'%y'_'%I':'%M)
 #VERSION=$(make kernelversion)
 DISTRO=$(source /etc/os-release && echo $NAME)
@@ -69,7 +69,7 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 
 #Starting Compilation
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$DATE</code>%0A<b>Device : </b><code>$DEVICE</code>
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$DATE</code>%0A<b>Device : </b><code>$DEVICE</code>"
 
 BUILD_START=$(date +"%s")
 export ARCH=arm64
