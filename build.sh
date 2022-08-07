@@ -48,7 +48,7 @@ msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
-export PATH="$WORKING_DIR/toolchains/bin/:$PATH"
+export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out raphael_defconfig
 make -j$(nproc --all) O=out \
       AR=llvm-ar \
