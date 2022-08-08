@@ -29,7 +29,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 # Build Info Variables
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
-ZIP_NAME=IMMENSiTY-ext-RAPHAEL
+ZIP_NAME=IMMENSiTY
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
@@ -43,7 +43,7 @@ zip -r9 "$ZIP_NAME.zip" * -x .git README.md *placeholder
 #KZIP="$WORKING_DIR/Anykernel/$ZIP_NAME.zip"
 ZIP=$(echo *.zip)
 if [ -e $ZIP ]; then
-curl -F document=@$ZIP "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
+curl -F document=@~/Anykernel/IMMENSiTY.zip "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
