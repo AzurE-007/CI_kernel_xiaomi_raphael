@@ -41,7 +41,7 @@ DIFF=$((BUILD_END - BUILD_START))
 if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
 zip -r9 "$ZIP_NAME.zip" * -x .git README.md *placeholder
-cp $ZIP_NAME $WORKING_DIR/
+cp $ZIP_NAME.zip $WORKING_DIR/
 KZIP="$WORKING_DIR/$ZIP_NAME.zip"
 curl -F document=@"$KZIP" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*✅ Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds*"
 else
