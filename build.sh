@@ -42,7 +42,7 @@ if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 cp $ZIP_NAME $WORKING_DIR/
-curl -F document=@"$WORKING_DIR/Anykernel/$ZIP_NAME" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*✅ Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds*"
+curl -F document=@"$ZIP_NAME" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*✅ Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds*"
 else
 file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
