@@ -43,7 +43,7 @@ COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/
 DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
 
 #Starting Compilation
-BUILD_START=$(date +"%s")
+export BUILD_START=$(date +"%s")
 msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
@@ -70,14 +70,16 @@ make -j$(nproc --all) O=out \
 #Zipping Into Flashable Zip
 if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ];
 then
+export ZIP_NAME=$IMMENSiTY-ext-RAPHAEL-$DATE.zip
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-zip -r9 IMMENSiTY-ext-RAPHAEL-$DATE.zip * -x .git README.md *placeholder
-BUILD_END=$(date +"%s")
-DIFF=$((BUILD_END - BUILD_START))
+zip -r9 $ZIP_NAME * -x .git README.md *placeholder
+export BUILD_END=$(date +"%s")
+export DIFF=$((BUILD_END - BUILD_START))
+
 #Upload Kernel ZIP
-file "IMMENSiTY-ext-RAPHAEL-*.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+file "$ZIP_NAME" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
 file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
