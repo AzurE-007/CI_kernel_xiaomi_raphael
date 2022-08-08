@@ -16,7 +16,7 @@ msg() {
 
 file() {
 	MD5=$(md5sum "$1" | cut -d' ' -f1)
-	curl --progress-bar -F document=@"$1" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
+	curl --progress-bar -F document=@$1 "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
 	-F chat_id="$TG_CHAT_ID" \
 	-F "disable_web_page_preview=true" \
 	-F "parse_mode=Markdown" \
@@ -42,7 +42,7 @@ if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 cp $ZIP_NAME $WORKING_DIR/
-file $WORKING_DIR/Anykernel/$ZIP_NAME "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+file "$WORKING_DIR/Anykernel/$ZIP_NAME" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
 file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
