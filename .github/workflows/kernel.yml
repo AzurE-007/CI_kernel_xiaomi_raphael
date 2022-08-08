@@ -17,6 +17,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/sushrut1101/docker:latest
 
     steps:
       - name: Checkout
