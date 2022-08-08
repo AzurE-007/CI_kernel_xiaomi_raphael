@@ -36,6 +36,8 @@ jobs:
             cd Anykernel
             ZIP=$(echo *.zip)
             echo $ZIP
+            pwd
+            curl -v
             if [ -e $ZIP ]; then
                 curl -F chat_id="$TG_CHAT_ID" \
                 -F document=@"./IMMENSiTY.zip" \
