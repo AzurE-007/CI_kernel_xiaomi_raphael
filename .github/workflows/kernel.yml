@@ -31,19 +31,3 @@ jobs:
         run: |
           bash build.sh
 
-      - name: Upload
-        run: |
-            cd Anykernel
-            ZIP=$(echo *.zip)
-            if [ -e $ZIP ]; then
-                MD5=$(md5sum "$ZIP" | cut -d' ' -f1)
-                curl -F document=@"$ZIP" https://api.telegram.org/bot$BOT_TOKEN/sendDocument?chat_id=$TG_CHAT_ID \
-                -F "disable_web_page_preview=true" \
-                -F "parse_mode=Markdown" \
-                -F caption="Build Successful | *MD5 Checksum : *\`$MD5\`"
-            else
-                curl -F chat_id="$CHAT_ID" \
-                -F document=@"out/error.log" \
-                -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument \
-                -F caption="@TeraaBytee"
-            fi
