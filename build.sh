@@ -39,7 +39,7 @@ cd $WORKING_DIR/kernel
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
-BUILD_DATE=$(date +'%Y%m%d-%H%M')
+ZIP_NAME=IMMENSiTY-ext-RAPHAEL-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
@@ -65,17 +65,16 @@ make -j$(nproc --all) O=out \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       2>&1 | tee out/error.log
+BUILD_END=$(date +"%s")
+DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
 if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-export ZIP_NAME="IMMENSiTY-ext-RAPHAEL-$DATE.zip"
-zip -9 -r $ZIP_NAME * -x .git README.md *placeholder
-BUILD_END=$(date +"%s")
-DIFF=$((BUILD_END - BUILD_START))
-file "$ZIP_NAME" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+zip -r9 $ZIP_NAME $WORKING_DIR/*
+curl -F document=@"$ZIP_NAME" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)*"
 else
 file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
