@@ -18,7 +18,7 @@ file() {
 	curl -F document=@"$1" https://api.telegram.org/bot$BOT_TOKEN/sendDocument?chat_id=$TG_CHAT_ID \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-	-F caption="<b> Build took : <b><code>$2</code>%0A<b>MD5 Checksum : </b><code>$MD5</code>"
+	-F caption="<b>Build took : <b><code>$2</code>%0A<b>MD5 Checksum : </b><code>$MD5</code>"
 }
 
 # Cloning Anykernel
