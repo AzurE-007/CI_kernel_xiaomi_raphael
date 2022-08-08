@@ -20,8 +20,8 @@ file() {
 	curl --progress-bar -F document=@"$1" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
 	-F chat_id="$TG_CHAT_ID" \
 	-F "disable_web_page_preview=true" \
-	-F "parse_mode=html" \
-	-F caption="$2 | <b>MD5 Checksum : </b><code>$MD5</code>"
+	-F "parse_mode=Markdown" \
+	-F caption="$2 | *MD5 Checksum : *\`$MD5\`"
 }
 
 # Cloning Anykernel
