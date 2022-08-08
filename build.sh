@@ -49,7 +49,7 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
-make O=out ARCH=arm64 raphael_defconfig
+make O=out raphael_defconfig
 make -j$(nproc --all) O=out \
       CC=clang \
       AR=llvm-ar \
@@ -67,7 +67,7 @@ make -j$(nproc --all) O=out \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       2>&1 | tee out/error.log
 
-#Zipping Into Flashable Zip
+#Zipping & Uploading Flashable Kernel Zip
 if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ];
 then
 export ZIP_NAME=$IMMENSiTY-ext-RAPHAEL-$DATE.zip
@@ -77,8 +77,6 @@ cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 export BUILD_END=$(date +"%s")
 export DIFF=$((BUILD_END - BUILD_START))
-
-#Upload Kernel ZIP
 file "$ZIP_NAME" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
 file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
