@@ -29,7 +29,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 # Build Info Variables
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
-ZIP_NAME=IMMENSiTY-ext-RAPHAEL-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+ZIP_NAME=IMMENSiTY-ext-RAPHAEL-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M)
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
@@ -40,9 +40,10 @@ DIFF=$((BUILD_END - BUILD_START))
 #Zipping & Uploading Flashable Kernel Zip
 if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
-zip -r9 $ZIP_NAME * -x .git README.md *placeholder
+zip -r9 "$ZIP_NAME.zip" * -x .git README.md *placeholder
 cp $ZIP_NAME $WORKING_DIR/
-curl -F document=@$ZIP_NAME "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*✅ Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds*"
+KZIP="$WORKING_DIR/$ZIP_NAME.zip"
+curl -F document=@"$KZIP" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*✅ Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds*"
 else
 file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
