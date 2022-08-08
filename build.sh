@@ -38,4 +38,4 @@ DIFF=$((BUILD_END - BUILD_START))
 #Zipping & Uploading Flashable Kernel Zip
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME.zip * -x .git README.md *placeholder
-file "$ZIP_NAME.zip" "<b> Build took : </b>$((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)" 
+file "$ZIP_NAME.zip" "Build took:$((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)" 
