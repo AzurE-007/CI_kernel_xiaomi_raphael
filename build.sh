@@ -18,9 +18,9 @@ file() {
 	MD5=$(md5sum "$1" | cut -d' ' -f1)
 	curl --progress-bar -F document=@$1 "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
 	-F chat_id="$TG_CHAT_ID" \
-	-F "disable_web_page_preview=true" \
-	-F "parse_mode=Markdown" \
-	-F caption="$2 | *MD5 Checksum : *\`$MD5\`"
+        -F "disable_web_page_preview=true" \
+        -F "parse_mode=html" \
+	-F caption="$2 | <b>MD5 Checksum : </b><code>$MD5</code>"
 }
 
 # Cloning Anykernel
@@ -40,14 +40,9 @@ DIFF=$((BUILD_END - BUILD_START))
 #Zipping & Uploading Flashable Kernel Zip
 cd $WORKING_DIR/Anykernel
 zip -r9 "$ZIP_NAME.zip" * -x .git README.md *placeholder
-#KZIP="$WORKING_DIR/Anykernel/$ZIP_NAME.zip"
-ZIP=$(echo *.zip)
-if [ -e $ZIP ]; then
-curl -F document=@"~/Anykernel/IMMENSiTY.zip" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
-        -F chat_id="$TG_CHAT_ID" \
-        -F "disable_web_page_preview=true" \
-        -F "parse_mode=html" \
-        -F caption="Test"
+cp $WORKING_DIR/Anykernel/IMMENSiTY.zip $WORK_DIR/
+rm $WORKING_DIR/Anykernel/IMMENSiTY.zip
+file "$WORK_DIR/IMMENSiTY.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
 file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
