@@ -18,7 +18,7 @@ file() {
 	curl -F document=@"$1" https://api.telegram.org/bot$BOT_TOKEN/sendDocument?chat_id=$TG_CHAT_ID \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=Markdown" \
-	-F caption="$2 *MD5 Checksum : *\`$MD5\`"
+	-F caption="$2 | *MD5 Checksum : *\`$MD5\`"
 }
 
 # Cloning Anykernel
@@ -38,4 +38,4 @@ DIFF=$((BUILD_END - BUILD_START))
 #Zipping & Uploading Flashable Kernel Zip
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME.zip * -x .git README.md *placeholder
-file "$ZIP_NAME.zip" "*Build completed : *$((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+file "$ZIP_NAME.zip" "*Build took : *$((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
