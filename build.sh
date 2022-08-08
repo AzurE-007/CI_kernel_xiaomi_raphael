@@ -47,7 +47,7 @@ BUILD_START=$(date +"%s")
 msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
-ARCH=arm64
+export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out ARCH=arm64 raphael_defconfig
 make -j$(nproc --all) O=out \
