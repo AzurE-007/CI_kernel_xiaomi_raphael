@@ -29,7 +29,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 # Build Info Variables
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
-ZIP_NAME=IMMENSiTY-ext-RAPHAEL-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M)
+ZIP_NAME=IMMENSiTY-ext-RAPHAEL
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
@@ -41,8 +41,7 @@ DIFF=$((BUILD_END - BUILD_START))
 if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
 zip -r9 "$ZIP_NAME.zip" * -x .git README.md *placeholder
-cp $ZIP_NAME.zip $WORKING_DIR/
-KZIP="$WORKING_DIR/$ZIP_NAME.zip"
+KZIP="$WORKING_DIR/Anykernel/$ZIP_NAME.zip"
 curl -F document=@"$KZIP" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=html" -F caption="Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds"
 else
 file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
