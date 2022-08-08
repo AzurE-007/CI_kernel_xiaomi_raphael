@@ -3,7 +3,7 @@
 set -e
 
 # Working Directory
-WORKING_DIR=~/
+WORKING_DIR="$(pwd)"
 
 # Functions For Telegram Post
 msg() {
