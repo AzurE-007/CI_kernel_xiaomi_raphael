@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Bail out if script fails
 set -e
 
 # Working Directory
@@ -68,13 +67,12 @@ make -j$(nproc --all) O=out \
       2>&1 | tee out/error.log
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ];
-then
+if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-export ZIP_NAME="$IMMENSiTY-ext-RAPHAEL-$DATE.zip"
-zip -9 -r "$ZIP_NAME" * -x .git README.md *placeholder
+export ZIP_NAME="IMMENSiTY-ext-RAPHAEL-$DATE.zip"
+zip -9 -r $ZIP_NAME * -x .git README.md *placeholder
 export BUILD_END=$(date +"%s")
 export DIFF=$((BUILD_END - BUILD_START))
 file "$ZIP_NAME" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
