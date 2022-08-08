@@ -49,8 +49,8 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
-make O=out raphael_defconfig
-make -j$(nproc --all) O=out \
+#make O=out raphael_defconfig
+#make -j$(nproc --all) O=out \
       AR=llvm-ar \
       NM=llvm-nm \
       OBJCOPY=llvm-objcopy \
@@ -67,10 +67,11 @@ make -j$(nproc --all) O=out \
       CC=clang | tee log.txt
 
 #Zipping Into Flashable Zip
-if [ -f out/arch/arm64/boot/Image.gz-dtb ] && [ -f out/arch/arm64/boot/dtbo.img ];
-then
-cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
-cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
+if [ -f $WORKING_DIR/Anykernel/anykernel.sh ] 
+#if [ -f out/arch/arm64/boot/Image.gz-dtb ] && [ -f out/arch/arm64/boot/dtbo.img ];
+#then
+#cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
+#cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
 zip -9 -r IMMENSiTY-ext-RAPHAEL-$DATE.zip . -x ".git*" -x "README.md" -x "*.zip"
 BUILD_END=$(date +"%s")
