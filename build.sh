@@ -38,7 +38,7 @@ BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e WORKING_DIR/Anykernel/anykernel.sh ]; then
+if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
 7z a -mx9 IMMENSiTY-ext.zip *
 zipalign -v 4 IMMENSiTY-ext.zip ../$ZIP_NAME
