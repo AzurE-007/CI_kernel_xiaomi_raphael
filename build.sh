@@ -72,7 +72,7 @@ then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-zip -r IMMENSiTY-ext-RAPHAEL-$DATE.zip . -x ".git*" -x "README.md" -x "*.zip"
+zip -9 -r IMMENSiTY-ext-RAPHAEL-$DATE.zip . -x ".git*" -x "README.md" -x "*.zip"
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
