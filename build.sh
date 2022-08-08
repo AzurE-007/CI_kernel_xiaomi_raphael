@@ -7,8 +7,7 @@ WORKING_DIR="$(pwd)"
 
 # Functions For Telegram Post
 msg() {
-	curl -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
-        -d chat_id="$TG_CHAT_ID" \
+	curl -X POST https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$TG_CHAT_ID \
 	-d "disable_web_page_preview=true" \
 	-d "parse_mode=html" \
 	-d text="$1"
@@ -16,11 +15,10 @@ msg() {
 
 file() {
 	MD5=$(md5sum "$1" | cut -d' ' -f1)
-	curl --progress-bar -F document=@$1 "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
-	-F chat_id="$TG_CHAT_ID" \
+	curl --progress-bar -F document=@"$1" https://api.telegram.org/bot$BOT_TOKEN/sendDocument?chat_id=$TG_CHAT_ID \
         -F "disable_web_page_preview=true" \
-        -F "parse_mode=html" \
-	-F caption="$2 | <b>MD5 Checksum : </b><code>$MD5</code>"
+        -F "parse_mode=Markdown" \
+	-F caption="$2 | *MD5 Checksum : *\`$MD5\`"
 }
 
 # Cloning Anykernel
@@ -39,4 +37,5 @@ DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
 cd $WORKING_DIR/Anykernel
-zip -r9 IMMENSiTY.zip * -x .git README.md *placeholder
+zip -r9 $ZIP_NAME.zip * -x .git README.md *placeholder
+file "$ZIP_NAME.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)" 
