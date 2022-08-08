@@ -7,29 +7,26 @@ on:
           description: "Kernel Tree Branch Name"
           required: true
           default: "sapphire-staging"
-  
+
 env:
   BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
   BUILD_ID: ${{ github.run_number }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
 
-      - name: Setting up build environment 
+      - name: Initializing build environment
         run: |
-          sudo apt update -y
-          sudo apt-get install -y automake bc bison build-essential ccache clang cpio curl gcc git libc6 libncurses5-dev libssl-dev libstdc++6 make python3-pip unzip wget zip zipalign
-          
-      - name: Build Kernel
-        timeout-minutes: 340
-        continue-on-error: true
+          sudo apt-get update -y
+          sudo apt-get install automake bc bison build-essential ccache clang cpio curl gcc git libc6 lld llvm libncurses5-dev libssl-dev libstdc++6 make python3-pip unzip wget zip zipalign -y
+
+      - name: Building
         run: |
           bash build.sh
-

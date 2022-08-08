@@ -47,10 +47,11 @@ BUILD_START=$(date +"%s")
 msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
 export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
-export ARCH=arm64
+export ARCH="arm64"
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
-#make O=out raphael_defconfig
-#make -j$(nproc --all) O=out \
+make O=out ARCH=arm64 raphael_defconfig
+make -j$(nproc --all) O=out \
+      CC=clang \
       AR=llvm-ar \
       NM=llvm-nm \
       OBJCOPY=llvm-objcopy \
@@ -64,22 +65,19 @@ export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
       CLANG_TRIPLE=aarch64-linux-gnu- \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-      CC=clang | tee log.txt
+      2>&1 | tee out/error.log
 
 #Zipping Into Flashable Zip
-if [ -f $WORKING_DIR/Anykernel/anykernel.sh ] 
-#if [ -f out/arch/arm64/boot/Image.gz-dtb ] && [ -f out/arch/arm64/boot/dtbo.img ];
-#then
-#cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
-#cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
+if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ];
+then
+cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
+cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-zip -9 -r IMMENSiTY-ext-RAPHAEL-$DATE.zip . -x ".git*" -x "README.md" -x "*.zip"
+zip -r9 IMMENSiTY-ext-RAPHAEL-$DATE.zip * -x .git README.md *placeholder
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
-
 #Upload Kernel ZIP
 file "IMMENSiTY-ext-RAPHAEL-$DATE.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
-
 else
 file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
