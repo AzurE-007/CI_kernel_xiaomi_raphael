@@ -72,18 +72,12 @@ then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-zip -r9 IMMENSiTY-ext-RAPHAEL-$DATE.zip . -x ".git*" -x "README.md" -x "*.zip"
-
-cp $WORKING_DIR/Anykernel/IMMENSiTY-ext-RAPHAEL-$DATE.zip $WORKING_DIR/
-rm -rf $WORKING_DIR/Anykernel/Image.gz-dtb
-rm -rf $WORKING_DIR/Anykernel/dtbo.img
-rm -rf $WORKING_DIR/Anykernel/IMMENSiTY-ext-RAPHAEL-$DATE.zip
+zip -r IMMENSiTY-ext-RAPHAEL-$DATE.zip . -x ".git*" -x "README.md" -x "*.zip"
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Upload Kernel ZIP
-cd $WORKING_DIR/
-file "$WORKING_DIR/IMMENSiTY-ext-RAPHAEL-$DATE.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+file "$WORKING_DIR/Anykernel/IMMENSiTY-ext-RAPHAEL-$DATE.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 
 else
 file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
