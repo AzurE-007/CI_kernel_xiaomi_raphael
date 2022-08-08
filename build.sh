@@ -38,11 +38,15 @@ BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
 zip -r9 "$ZIP_NAME.zip" * -x .git README.md *placeholder
-KZIP="$WORKING_DIR/Anykernel/$ZIP_NAME.zip"
-curl -F document=@"$KZIP" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=html" -F caption="Build finished after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds"
+#KZIP="$WORKING_DIR/Anykernel/$ZIP_NAME.zip"
+ZIP=$(echo *.zip)
+if [ -e $ZIP ]; then
+curl -F chat_id="$TG_CHAT_ID" \
+     -F document=@"$ZIP" \
+     -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument \
+     -F caption="@Test"
 else
 file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
