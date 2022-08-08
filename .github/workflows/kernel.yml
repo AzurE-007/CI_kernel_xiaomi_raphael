@@ -22,12 +22,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Initializing build environment
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install automake bc bison build-essential ccache clang cpio curl gcc git libc6 lld llvm libncurses5-dev libssl-dev libstdc++6 make python3-pip unzip wget zip zipalign -y
+        uses: actions/@checkout@v2
 
       - name: Building
         run: |
