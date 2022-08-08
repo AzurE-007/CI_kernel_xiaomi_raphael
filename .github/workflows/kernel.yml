@@ -30,3 +30,19 @@ jobs:
       - name: Building
         run: |
           bash build.sh
+
+      - name: Upload
+        run: |
+            cd Anykernel
+            ZIP=$(echo *.zip)
+            if [ -e $ZIP ]; then
+                curl -F chat_id="$TG_CHAT_ID" \
+                -F document=@"$ZIP" \
+                -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument \
+                -F caption="$(cat TIME) @TeraaBytee"
+            else
+                curl -F chat_id="$CHAT_ID" \
+                -F document=@"out/error.log" \
+                -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument \
+                -F caption="$(cat TIME) @TeraaBytee"
+            fi
