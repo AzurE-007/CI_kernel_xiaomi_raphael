@@ -17,8 +17,8 @@ file() {
 	MD5=$(md5sum "$1" | cut -d' ' -f1)
 	curl -F document=@"$1" https://api.telegram.org/bot$BOT_TOKEN/sendDocument?chat_id=$TG_CHAT_ID \
         -F "disable_web_page_preview=true" \
-        -F "parse_mode=html" \
-	-F caption="<b> Test </b> $2 | <b>MD5 Checksum : </b><code>$MD5</code>"
+        -F "parse_mode=markdown" \
+	-F caption="<b> Test </b> $2 | *MD5 Checksum : *\`$MD5\`""
 }
 
 # Cloning Anykernel
