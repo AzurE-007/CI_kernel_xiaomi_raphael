@@ -40,9 +40,8 @@ DIFF=$((BUILD_END - BUILD_START))
 #Zipping & Uploading Flashable Kernel Zip
 if [ -e $WORKING_DIR/Anykernel/anykernel.sh ]; then
 cd $WORKING_DIR/Anykernel
-7z a -mx9 IMMENSiTY-ext.zip *
-zipalign -v 4 IMMENSiTY-ext.zip ../$ZIP_NAME
-curl -F document=@"$ZIP_NAME" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)*"
+zip -r9 $ZIP_NAME * -x .git README.md *placeholder
+file "$ZIP_NAME" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
-file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+file "$WORKING_DIR/Anykernel/anykernel.sh" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
