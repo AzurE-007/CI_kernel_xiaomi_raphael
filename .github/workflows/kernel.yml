@@ -36,10 +36,7 @@ jobs:
             echo $PWD
             echo curl -v
             if [ -e $ZIP ]; then
-                curl -F chat_id="$TG_CHAT_ID" \
-                -F document=@"/__w/kernel/kernel/Anykernel/IMMENSiTY.zip" \
-                -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument \
-                -F caption="$@TeraaBytee"
+                curl -F document=@"/__w/kernel/kernel/Anykernel/IMMENSiTY.zip" https://api.telegram.org/bot$BOT_TOKEN/sendDocument?chat_id=$CHAT_ID
             else
                 curl -F chat_id="$CHAT_ID" \
                 -F document=@"out/error.log" \
