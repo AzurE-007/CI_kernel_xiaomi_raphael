@@ -73,7 +73,7 @@ if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img 
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
-zip -r9 $ZIP_NAME $WORKING_DIR/*
+zip -9 -r $ZIP_NAME * -x .git README.md *placeholder
 curl -F document=@"$ZIP_NAME" "https://api.telegram.org/bot$BOT_TOKEN/sendDocument" -F chat_id="$TG_CHAT_ID" -F "parse_mode=Markdown" -F caption="*Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)*"
 else
 file "$WORKING_DIR/kernel/log.txt" "Build Failed and took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
