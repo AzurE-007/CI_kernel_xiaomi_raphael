@@ -62,7 +62,7 @@ make -j$(nproc --all) O=out \
       CLANG_TRIPLE=aarch64-linux-gnu- \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-      2>&1 | tee out/error.log
+      2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
@@ -74,5 +74,5 @@ cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME.zip * -x .git README.md *placeholder
 file "$ZIP_NAME.zip" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
-file "$WORKING_DIR/kernel/log.txt" "*Build Failed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+file "$WORKING_DIR/kernel/out/error.txt" "*Build Failed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 fi
