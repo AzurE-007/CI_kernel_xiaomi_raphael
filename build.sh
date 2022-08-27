@@ -25,7 +25,7 @@ file() {
 git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-git clone --depth=1 https://github.com/back-up-git/kernel_xiaomi_raphael.git -b $BRANCH_NAME $WORKING_DIR/kernel
+git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
 git clone --depth=1 https://github.com/kdrag0n/proton-clang.git -b master $WORKING_DIR/toolchain
