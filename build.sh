@@ -54,7 +54,7 @@ make -j$(nproc --all) O=out \
       LLVM=1 \
       LLVM_IAS=1 \
       CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
+      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
