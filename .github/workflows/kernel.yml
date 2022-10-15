@@ -11,7 +11,7 @@ on:
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "topaz"
+          default: "msnile"
 
 env:
   REPO_LINK: ${{ github.event.inputs.REPO_LINK }}
