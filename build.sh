@@ -29,6 +29,8 @@ git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
 git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
+cd linux-x86
+ls
 mv linux-x86/clang-r450784d WORKING_DIR/toolchain && rm -rf linux-x86
 
 # Change Directory to the Source Directry
