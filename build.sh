@@ -49,10 +49,12 @@ export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out raphael_defconfig
 make -j$(nproc --all) O=out \
+      ARCH=arm64
+      CC=clang
       LLVM=1 \
       LLVM_IAS=1 \
       CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+      CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
