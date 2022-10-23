@@ -38,7 +38,7 @@ cd $WORKING_DIR/kernel
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
-ZIP_NAME=WAFFLES-RAPHAEL-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+ZIP_NAME=Topaz-T-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
@@ -47,7 +47,7 @@ export KBUILD_BUILD_USER="Azure"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
-make O=out vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.config vendor/xiaomi/raphael.config
+make O=out raphael_defconfig
 make -j$(nproc --all) O=out \
       ARCH=arm64 \
       CC=clang \
