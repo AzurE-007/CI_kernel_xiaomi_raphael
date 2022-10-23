@@ -51,6 +51,7 @@ make O=out raphael_defconfig
 make -j$(nproc --all) O=out \
       ARCH=arm64 \
       CC=clang \
+      LD=ld.lld \
       AS=llvm-as \
       AR=llvm-ar \
       NM=llvm-nm \
