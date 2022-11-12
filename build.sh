@@ -25,7 +25,7 @@ file() {
 git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-git clone --depth=1 https://$SGIT_NAME:$SGIT_TOKEN@github.com/$SGIT_NAME/kernel_xiaomi_raphael -b $BRANCH_NAME $WORKING_DIR/kernel
+git clone --depth=1 https://github.com/Azure-Helper/V -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
 git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
