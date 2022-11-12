@@ -25,7 +25,7 @@ file() {
 git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
+git clone --depth=1 https://$SGIT_NAME:$SGIT_TOKEN@github.com/$SGIT_NAME/kernel_xiaomi_raphael -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
 git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
@@ -38,7 +38,7 @@ cd $WORKING_DIR/kernel
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
-ZIP_NAME=Raphael-T-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+ZIP_NAME=Raphael-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
