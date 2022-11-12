@@ -3,22 +3,18 @@ name: Kernel Builder
 on:
   workflow_dispatch:
     inputs:
-         REPO_LINK:
-          description: "Kernel Tree Repo Link"
-          required: true
-          default: "https://github.com/back-up-git/kernel_xiaomi_raphael.git"
-
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
           default: "topaz"
 
 env:
-  REPO_LINK: ${{ github.event.inputs.REPO_LINK }}
   BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
   BUILD_ID: ${{ github.run_number }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+  SGIT_NAME: ${{ secrets.SGIT_NAME }}
+  SGIT_TOKEN: ${{ secrets.SGIT_NAME }}
 
 jobs:
   build:
