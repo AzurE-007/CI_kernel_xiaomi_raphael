@@ -28,7 +28,10 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
-git clone --depth=1 https://github.com/kdrag0n/proton-clang.git -b master $WORKING_DIR/toolchain
+git clone --depth=1 https://github.com/NFS-projects/gcc-arm -b 11.x $WORKING_DIR/GCC-11-32
+git clone --depth=1 https://github.com/NFS-projects/gcc-arm64 -b 11.x $WORKING_DIR/GCC-11-64
+GCC_ROOTDIR=$WORKING_DIR/GCC-11-64
+GCC_ROOTDIR32=$WORKING_DIR/GCC-11-32
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -36,7 +39,7 @@ cd $WORKING_DIR/kernel
 # Build Info Variables
 DEVICE="RMX_1805"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
+COMPILER=GCC
 ZIP_NAME=RMX_1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
@@ -48,17 +51,11 @@ export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out MSM_18051_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
-      CC=clang \
-      AR=llvm-ar \
-      NM=llvm-nm \
-      OBJCOPY=llvm-objcopy \
-      OBJDUMP=llvm-objdump \
-      STRIP=llvm-strip \
-      HOSTCC=clang \
-      HOSTAR=llvm-ar \
-      HOSTCXX=clang++ \
-      CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+      AR=${GCC_ROOTDIR}/bin/aarch64-elf-ar \
+      OBJDUMP=${GCC_ROOTDIR}/bin/aarch64-elf-objdump \
+      STRIP=${GCC_ROOTDIR}/bin/aarch64-elf-strip
+      CROSS_COMPILE=${GCC_ROOTDIR}/bin/aarch64-elf- \
+      CROSS_COMPILE_ARM32=${GCC_ROOTDIR32}/bin/arm-eabi- \
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
