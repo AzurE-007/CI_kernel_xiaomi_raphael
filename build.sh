@@ -34,19 +34,19 @@ git clone --depth=1 https://github.com/kdrag0n/proton-clang.git -b master $WORKI
 cd $WORKING_DIR/kernel
 
 # Build Info Variables
-DEVICE="raphael"
+DEVICE="RMX_1805"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
-ZIP_NAME=IMMENSiTY-ext-RAPHAEL-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+ZIP_NAME=RMX_1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
 msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
-export KBUILD_BUILD_USER="Azure"
+export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
-make O=out raphael_defconfig
+make O=out MSM_18051_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
       CC=clang \
       AR=llvm-ar \
@@ -54,12 +54,9 @@ make -j$(nproc --all) O=out \
       OBJCOPY=llvm-objcopy \
       OBJDUMP=llvm-objdump \
       STRIP=llvm-strip \
-      LD=ld.lld \
       HOSTCC=clang \
-      HOSTLD=ld.lld \
       HOSTAR=llvm-ar \
       HOSTCXX=clang++ \
-      CLANG_TRIPLE=aarch64-linux-gnu- \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       2>&1 | tee out/error.txt
@@ -67,9 +64,8 @@ BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
+if [ -e out/arch/arm64/boot/Image.gz-dtb ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
-cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
