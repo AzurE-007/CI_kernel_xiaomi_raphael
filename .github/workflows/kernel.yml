@@ -6,12 +6,12 @@ on:
          REPO_LINK:
           description: "Kernel Tree Repo Link"
           required: true
-          default: "https://github.com/back-up-git/kernel_xiaomi_raphael.git"
+          default: "https://github.com/RMX-1805/kernel_realme_rmx1805"
 
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "sapphire-staging"
+          default: "LA.UM.7.6.2"
 
 env:
   REPO_LINK: ${{ github.event.inputs.REPO_LINK }}
