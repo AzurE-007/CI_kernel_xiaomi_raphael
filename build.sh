@@ -34,10 +34,10 @@ git clone --depth=1 https://github.com/kdrag0n/proton-clang $WORKING_DIR/clang
 cd $WORKING_DIR/kernel
 
 # Build Info Variables
-DEVICE="RMX_1805"
+DEVICE="RMX1805"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=GCC
-ZIP_NAME=RMX_1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
+ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
