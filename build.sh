@@ -45,8 +45,11 @@ msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code
 export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
+export WT_FINAL_RELEASE=yes
+export PROJCT="18355"
+export PRJ_NAME="MSM_18355"
 export PATH=$WORKING_DIR/clang/bin/:/usr/bin:$PATH
-make O=out MSM_18051_msm8953-perf_defconfig
+make O=out MSM_18355_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
