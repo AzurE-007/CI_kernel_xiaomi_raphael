@@ -28,9 +28,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
-git clone --depth=1 https://github.com/geopd/prebuilts_clang_host_linux-x86 -b clang-r407598 $WORKING_DIR/clang/clang64
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b master $WORKING_DIR/clang/clang32
-
+git clone --depth=1 https://github.com/kdrag0n/proton-clang $WORKING_DIR/clang
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -47,11 +45,15 @@ msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code
 export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
-export PATH=$WORKING_DIR/clang/clang32/bin/:$WORKING_DIR/clang/clang64/bin/:/usr/bin:$PATH
+export PATH=$WORKING_DIR/clang/bin/:/usr/bin:$PATH
 make O=out MSM_18051_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
-      CLANG_TRIPLE=aarch64-linux-gnu- \
+      CROSS_COMPILE=aarch64-linux-gnu- \
+      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       CC=clang \
+      AR=llvm-ar \
+      OBJDUMP=llvm-objdump \
+      STRIP=llvm-strip
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
