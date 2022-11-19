@@ -48,7 +48,6 @@ msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code
 export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
-export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out MSM_18051_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
       AR=${GCC_ROOTDIR}/bin/aarch64-elf-ar \
