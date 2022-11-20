@@ -35,9 +35,8 @@ cd $WORKING_DIR/kernel
 
 # Build Info Variables
 DEVICE="RMX1805"
-PATH="${WORKING_DIR}/clang/bin:${WORKING_DIR}/gcc/bin:${WORKING_DIR}/gcc32/bin:${PATH}"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')
+COMPILER=$($WORKING_DIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
 ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
@@ -46,18 +45,18 @@ msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code
 export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
-export PATH=$WORKING_DIR/clang/bin/:/usr/bin:$PATH
 export WT_FINAL_RELEASE=yes
 export PROJCT="18355"
 export PRJ_NAME="MSM_18355"
-
+export PATH=$WORKING_DIR/clang/bin/:/usr/bin:$PATH
+make O=out MSM_18355_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       CC=clang \
       AR=llvm-ar \
       OBJDUMP=llvm-objdump \
-      STRIP=llvm-strip \
+      STRIP=llvm-strip
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
