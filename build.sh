@@ -28,9 +28,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
-git clone --depth=1 https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-5407736 $WORKING_DIR/clang
-git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 $WORKING_DIR/gcc32
-git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 $WORKING_DIR/gcc
+git clone --depth=1 https://github.com/kdrag0n/proton-clang $WORKING_DIR/clang
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -39,7 +37,7 @@ cd $WORKING_DIR/kernel
 DEVICE="RMX1805"
 PATH="${WORKING_DIR}/clang/bin:${WORKING_DIR}/gcc/bin:${WORKING_DIR}/gcc32/bin:${PATH}"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR//clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')
+COMPILER=$($WORKING_DIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')
 ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
@@ -48,18 +46,19 @@ msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code
 export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
+export PATH=$WORKING_DIR/clang/bin/:/usr/bin:$PATH
 export WT_FINAL_RELEASE=yes
 export PROJCT="18355"
 export PRJ_NAME="MSM_18355"
 
-make O=out MSM_18355_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
-      ARCH=arm64 \ 
-      CC=clang \ 
-      CLANG_TRIPLE=aarch64-linux-gnu- \
-      CROSS_COMPILE=aarch64-linux-android- \
-      CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-      | tee out/error.txt
+      CROSS_COMPILE=aarch64-linux-gnu- \
+      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+      CC=clang \
+      AR=llvm-ar \
+      OBJDUMP=llvm-objdump \
+      STRIP=llvm-strip \
+      2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
