@@ -51,14 +51,14 @@ export WT_FINAL_RELEASE=yes
 export PROJCT="18355"
 export PRJ_NAME="MSM_18355"
 
-make O=out ARCH=arm64 MSM_18355_msm8953-perf_defconfig
+make O=out MSM_18355_msm8953-perf_defconfig
 PATH="${WORKING_DIR}/clang/bin:${WORKING_DIR}/gcc/bin:${WORKING_DIR}/gcc32/bin:${PATH}" \
 make -j$(nproc --all) O=out \
       ARCH=arm64 \ 
       CC=clang \ 
       CLANG_TRIPLE=aarch64-linux-gnu- \
       CROSS_COMPILE=aarch64-linux-android- \
-      CROSS_COMPILE_ARM32=arm-linux-androideabi-
+      CROSS_COMPILE_ARM32=arm-linux-androideabi- \
       | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
