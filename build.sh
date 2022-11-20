@@ -37,6 +37,7 @@ cd $WORKING_DIR/kernel
 
 # Build Info Variables
 DEVICE="RMX1805"
+PATH="${WORKING_DIR}/clang/bin:${WORKING_DIR}/gcc/bin:${WORKING_DIR}/gcc32/bin:${PATH}"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR//clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')
 ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
@@ -52,7 +53,6 @@ export PROJCT="18355"
 export PRJ_NAME="MSM_18355"
 
 make O=out MSM_18355_msm8953-perf_defconfig
-PATH="${WORKING_DIR}/clang/bin:${WORKING_DIR}/gcc/bin:${WORKING_DIR}/gcc32/bin:${PATH}" \
 make -j$(nproc --all) O=out \
       ARCH=arm64 \ 
       CC=clang \ 
