@@ -11,7 +11,7 @@ on:
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "LA.UM.7.6.2"
+          default: "LA.UM.7.6.2.r1-08100-89xx.0"
 
 env:
   REPO_LINK: ${{ github.event.inputs.REPO_LINK }}
