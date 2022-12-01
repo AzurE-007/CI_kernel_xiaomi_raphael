@@ -38,12 +38,12 @@ cd $WORKING_DIR/kernel
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
-COMMIT_HEAD=$(git log --pretty=format:'%s' -n1)
+COMMIT_HEAD=$(git rev-parse --short HEAD)
 ZIP_NAME=Topaz-Raphael-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>%0A<b>COMMIT HEAD: </b><code>$COMMIT_HEAD</code>"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>%0A<b>Commit: </b><code>$COMMIT_HEAD</code>"
 export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
