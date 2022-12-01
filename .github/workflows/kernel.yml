@@ -14,7 +14,7 @@ env:
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
   SGIT_NAME: ${{ secrets.SGIT_NAME }}
-  SGIT_TOKEN: ${{ secrets.SGIT_NAME }}
+  SGIT_TOKEN: ${{ secrets.SGIT_TOKEN }}
 
 jobs:
   build:
