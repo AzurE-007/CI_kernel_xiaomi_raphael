@@ -22,7 +22,7 @@ file() {
 }
 
 # Cloning Anykernel
-git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
+git clone --depth=1 https://github.com/$SGIT_NAME/AnyKernel3.git -b raphael $WORKING_DIR/Anykernel
 
 # Cloning Kernel
 git clone --depth=1 https://$SGIT_NAME:$SGIT_TOKEN@github.com/paranoid-raphael/kernel_xiaomi_raphael -b $BRANCH_NAME $WORKING_DIR/kernel
