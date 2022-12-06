@@ -56,17 +56,6 @@ make O=out mrproper
 make O=out MSM_18355_msm8953-perf_defconfig
 make -j$(nproc --all) O=out \
       CC=clang \
-      AR=llvm-ar \
-      NM=llvm-nm \
-      OBJCOPY=llvm-objcopy \
-      OBJDUMP=llvm-objdump \
-      STRIP=llvm-strip \
-      LD=ld.lld \
-      HOSTCC=clang \
-      HOSTLD=ld.lld \
-      HOSTAR=llvm-ar \
-      HOSTCXX=clang++ \
-      CLANG_TRIPLE=aarch64-linux-gnu- \
       CROSS_COMPILE=aarch64-linux-gnu- \
       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       2>&1 | tee out/error.txt
