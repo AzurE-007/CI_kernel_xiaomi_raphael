@@ -28,8 +28,7 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
-git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
-mv linux-x86/clang-r450784d toolchain && rm -rf linux-x86
+git clone --depth=1 https://github.com/kdrag0n/proton-clang.git -b master $WORKING_DIR/toolchain
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -49,11 +48,20 @@ export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.config vendor/xiaomi/raphael.config
 make -j$(nproc --all) O=out \
-      ARCH=arm64 \
-      LLVM=1 \
-      LLVM_IAS=1 \
-      CROSS_COMPILE="aarch64-linux-gnu-" \
-      CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
+      CC=clang \
+      AR=llvm-ar \
+      NM=llvm-nm \
+      OBJCOPY=llvm-objcopy \
+      OBJDUMP=llvm-objdump \
+      STRIP=llvm-strip \
+      LD=ld.lld \
+      HOSTCC=clang \
+      HOSTLD=ld.lld \
+      HOSTAR=llvm-ar \
+      HOSTCXX=clang++ \
+      CLANG_TRIPLE=aarch64-linux-gnu- \
+      CROSS_COMPILE=aarch64-linux-gnu- \
+      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
