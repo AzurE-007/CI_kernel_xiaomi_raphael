@@ -6,12 +6,11 @@ on:
          REPO_LINK:
           description: "Kernel Tree Repo Link"
           required: true
-          default: "https://github.com/back-up-git/kernel_xiaomi_raphael.git"
-
+          
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "msmnile"
+          default: "lineage"
 
 env:
   REPO_LINK: ${{ github.event.inputs.REPO_LINK }}
