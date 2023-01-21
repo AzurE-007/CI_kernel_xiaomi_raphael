@@ -13,6 +13,8 @@ env:
   BUILD_ID: ${{ github.run_number }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+  SGIT_NAME: ${{ secrets.SGIT_NAME }}
+  SGIT_TOKEN: ${{ secrets.SGIT_TOKEN }}
 
 jobs:
   build:
@@ -26,8 +28,6 @@ jobs:
         run: |
           sudo apt update && sudo apt upgrade
           sudo apt-get install automake bc bison build-essential ccache clang cpio curl gcc git libc6 lld llvm libncurses5-dev libssl-dev libstdc++6 make python2 python3-pip unzip wget zip zipalign -y
-
       - name: Building
         run: |
           bash build.sh
-
