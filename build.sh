@@ -22,13 +22,14 @@ file() {
 }
 
 # Cloning Anykernel
-git clone --depth=1 https://github.com/Azure-Helper/AnyKernel3.git -b raphael $WORKING_DIR/Anykernel
+git clone --depth=1 https://github.com/$SGIT_NAME/AnyKernel3.git -b raphael $WORKING_DIR/Anykernel
 
 # Cloning Kernel
-git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
+git clone --depth=1 https://$SGIT_NAME:$SGIT_TOKEN@github.com/paranoid-raphael/kernel_xiaomi_raphael -b $BRANCH_NAME $WORKING_DIR/kernel
 
 # Cloning Toolchain
-git clone --depth=1 https://github.com/kdrag0n/proton-clang.git -b master $WORKING_DIR/toolchain
+git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
+mv linux-x86/clang-r450784d toolchain && rm -rf linux-x86
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -37,40 +38,33 @@ cd $WORKING_DIR/kernel
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
-ZIP_NAME=Raphael-T-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+COMMIT_HEAD=$(git rev-parse --short HEAD)
+ZIP_NAME=Topaz-Raphael-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
-msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
-export KBUILD_BUILD_USER="Azure"
+msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>%0A<b>Commit: </b><code>$COMMIT_HEAD</code>"
+export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
-make O=out vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.config vendor/xiaomi/raphael.config
+make O=out ARCH=arm64 vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.config vendor/xiaomi/raphael.config
+PATH="$CIRRUS_WORKING_DIR/clang/bin:${PATH}" \
 make -j$(nproc --all) O=out \
-      CC=clang \
-      AR=llvm-ar \
-      NM=llvm-nm \
-      OBJCOPY=llvm-objcopy \
-      OBJDUMP=llvm-objdump \
-      STRIP=llvm-strip \
-      LD=ld.lld \
-      HOSTCC=clang \
-      HOSTLD=ld.lld \
-      HOSTAR=llvm-ar \
-      HOSTCXX=clang++ \
-      CLANG_TRIPLE=aarch64-linux-gnu- \
-      CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-      2>&1 | tee out/error.txt
+                      ARCH=arm64 \
+                      CC=clang \
+                      LLVM=1 \
+                      LLVM_IAS=1 \
+                      CROSS_COMPILE="aarch64-linux-gnu-" \
+                      CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
+                      2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
-cp out/arch/arm64/boot/Image $WORKING_DIR/Anykernel
+if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
+cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
-cp out/arch/arm64/boot/dtb.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
