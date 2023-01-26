@@ -61,9 +61,9 @@ BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image.gz-dtb ]; then
+if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
-# cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
+cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
