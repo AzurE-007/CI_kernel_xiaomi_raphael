@@ -49,7 +49,6 @@ export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export PATH="$WORKING_DIR/toolchain/bin/:$PATH"
 make O=out ARCH=arm64 vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.config vendor/xiaomi/raphael.config
-PATH="$CIRRUS_WORKING_DIR/clang/bin:${PATH}" \
 make -j$(nproc --all) O=out \
                       ARCH=arm64 \
                       CC=clang \
