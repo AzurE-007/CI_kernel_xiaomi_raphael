@@ -61,7 +61,7 @@ BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
+if [ -e out/arch/arm64/boot/Image.gz-dtb ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
