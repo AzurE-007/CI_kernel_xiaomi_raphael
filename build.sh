@@ -34,12 +34,18 @@ mv linux-x86/clang-r450784d toolchain && rm -rf linux-x86
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
 
+# Integrate KernelSU
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+wget https://raw.githubusercontent.com/back-up-git/kernel-action/KernelSU/patches/7ffaa3df077979de97ae33886c6753357af0b7cb.patch && git apply 7ffaa3df077979de97ae33886c6753357af0b7cb.patch
+wget https://raw.githubusercontent.com/back-up-git/kernel-action/KernelSU/patches/fefff713679576a6ecdcf7252684f45cdc2196b4.patch && git apply fefff713679576a6ecdcf7252684f45cdc2196b4.patch
+rm -rf 7ffaa3df077979de97ae33886c6753357af0b7cb.patch && rm -rf fefff713679576a6ecdcf7252684f45cdc2196b4.patch
+
 # Build Info Variables
 DEVICE="raphael"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/toolchain/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
 COMMIT_HEAD=$(git rev-parse --short HEAD)
-ZIP_NAME=Topaz-Raphael-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+ZIP_NAME=KernelSU-Raphael-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
