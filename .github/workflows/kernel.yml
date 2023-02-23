@@ -26,7 +26,7 @@ jobs:
       
       - name: Initializing build environment
         run: |
-          sudo apt update && sudo apt upgrade
+          sudo apt-get install -y --no-install-recommends automake bc bison build-essential ccache clang cpio curl device-tree-compiler gcc git libc6 lld llvm libncurses5-dev libssl-dev libstdc++6 make python2 python3-pip unzip wget zip zipalign
      
       - name: Building
         run: |
