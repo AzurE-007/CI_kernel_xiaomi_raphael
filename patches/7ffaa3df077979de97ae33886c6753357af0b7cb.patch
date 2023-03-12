@@ -4,7 +4,7 @@ Date: Tue, 21 Feb 2023 18:52:50 +0530
 Subject: [PATCH] arch: arm64: configs: xiaomi: Setup Kprobes
 
 ---
- arch/arm64/configs/vendor/xiaomi/sm8150-common.config | 6 ++++++
+ arch/arm64/configs/vendor/xiaomi/sm8150-common.config | 9 ++++++
  1 file changed, 9 insertions(+)
 
 diff --git a/arch/arm64/configs/vendor/xiaomi/sm8150-common.config b/arch/arm64/configs/vendor/xiaomi/sm8150-common.config
