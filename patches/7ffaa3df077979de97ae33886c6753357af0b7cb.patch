@@ -5,7 +5,7 @@ Subject: [PATCH] arch: arm64: configs: xiaomi: Setup Kprobes
 
 ---
  arch/arm64/configs/vendor/xiaomi/sm8150-common.config | 6 ++++++
- 1 file changed, 6 insertions(+)
+ 1 file changed, 9 insertions(+)
 
 diff --git a/arch/arm64/configs/vendor/xiaomi/sm8150-common.config b/arch/arm64/configs/vendor/xiaomi/sm8150-common.config
 index 987970604968..e4d7051bbaec 100644
