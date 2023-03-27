@@ -36,8 +36,8 @@ cd $WORKING_DIR/kernel
 
 # Integrate KernelSU
 curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
-wget https://raw.githubusercontent.com/back-up-git/kernel-action/KernelSU/patches/7ffaa3df077979de97ae33886c6753357af0b7cb.patch && git apply 7ffaa3df077979de97ae33886c6753357af0b7cb.patch
-wget https://raw.githubusercontent.com/back-up-git/kernel-action/KernelSU/patches/fefff713679576a6ecdcf7252684f45cdc2196b4.patch && git apply fefff713679576a6ecdcf7252684f45cdc2196b4.patch
+wget https://raw.githubusercontent.com/back-up-git/kernel-action/ksu/patches/d8b240839d495e49f0af646224cdcbc27dea8bfd.patch && git apply d8b240839d495e49f0af646224cdcbc27dea8bfd.patch
+wget https://raw.githubusercontent.com/back-up-git/kernel-action/ksu/patches/fefff713679576a6ecdcf7252684f45cdc2196b4.patch && git apply fefff713679576a6ecdcf7252684f45cdc2196b4.patch
 rm -rf 7ffaa3df077979de97ae33886c6753357af0b7cb.patch && rm -rf fefff713679576a6ecdcf7252684f45cdc2196b4.patch
 git log --oneline -n 3
 
