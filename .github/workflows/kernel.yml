@@ -6,7 +6,7 @@ on:
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "lineage-ksu"
+          default: "LA.UM.9.1.r1-11700"
 
 env:
   BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
