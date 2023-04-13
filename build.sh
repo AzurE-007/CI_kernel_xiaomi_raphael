@@ -49,9 +49,10 @@ make O=out ARCH=arm64 vendor/sm8150-perf_defconfig vendor/xiaomi/sm8150-common.c
 make -j$(nproc --all) O=out \
                       ARCH=arm64 \
                       CC=clang \
+                      LLVM=1 \
+                      LLVM_IAS=1 \
                       CROSS_COMPILE=aarch64-linux-gnu- \
                       CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-                      CLANG_TRIPLE=aarch64-linux-gnu
                       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
