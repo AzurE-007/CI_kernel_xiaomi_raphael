@@ -26,7 +26,7 @@ git clone --depth=1 https://$SGIT_NAME:$SGIT_TOKEN@github.com/paranoid-raphael/k
 
 # Cloning Toolchain
 git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 -b master
-mv linux-x86/clang-r450784d toolchain && rm -rf linux-x86
+mv linux-x86/clang-r450784d1 toolchain && rm -rf linux-x86
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -58,7 +58,7 @@ BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading 
-if [ -e out/arch/arm64/boot/Image.gz ] then
+if [ -e out/arch/arm64/boot/Image.gz ]; then
 mkdir $WORKING_DIR/kernel
 cp out/arch/arm64/boot/Image.gz $WORKING_DIR/kernel
 cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/kernel
