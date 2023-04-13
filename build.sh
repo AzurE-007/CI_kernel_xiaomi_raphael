@@ -21,9 +21,6 @@ file() {
 	-F caption="$2 | *MD5 Checksum : *\`$MD5\`"
 }
 
-# Cloning Anykernel
-git clone --depth=1 https://github.com/$SGIT_NAME/AnyKernel3.git -b raphael $WORKING_DIR/Anykernel
-
 # Cloning Kernel
 git clone --depth=1 https://$SGIT_NAME:$SGIT_TOKEN@github.com/paranoid-raphael/kernel_xiaomi_raphael -b $BRANCH_NAME $WORKING_DIR/kernel
 
@@ -60,11 +57,13 @@ make -j$(nproc --all) O=out \
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
-#Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image.gz-dtb ] && [ -e out/arch/arm64/boot/dtbo.img ]; then
-cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
-cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/Anykernel
-cd $WORKING_DIR/Anykernel
+#Zipping & Uploading 
+if [ -e out/arch/arm64/boot/Image.gz ] then
+mkdir $WORKING_DIR/kernel
+cp out/arch/arm64/boot/Image.gz $WORKING_DIR/kernel
+cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/kernel
+cp out/arch/arm64/boot/*.dtb $WORKING_DIR/kernel
+cd $WORKING_DIR/kernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
