@@ -59,11 +59,11 @@ DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading 
 if [ -e out/arch/arm64/boot/Image.gz ]; then
-mkdir $WORKING_DIR/kernel
-cp out/arch/arm64/boot/Image.gz $WORKING_DIR/kernel
-cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/kernel
-cp out/arch/arm64/boot/*.dtb $WORKING_DIR/kernel
-cd $WORKING_DIR/kernel
+mkdir $WORKING_DIR/kernel/raphael
+cp out/arch/arm64/boot/Image.gz $WORKING_DIR/kernel/raphael
+cp out/arch/arm64/boot/dtbo.img $WORKING_DIR/kernel/raphael
+cp out/arch/arm64/boot/*.dtb $WORKING_DIR/kernel/raphael
+cd $WORKING_DIR/kernel/raphael
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 else
