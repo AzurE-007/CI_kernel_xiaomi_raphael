@@ -27,8 +27,9 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 # Cloning Kernel
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
-# Cloning Toolchain
-git clone --depth=1 https://github.com/kdrag0n/proton-clang $WORKING_DIR/clang
+# Cloning GCC
+git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 $WORKING_DIR/gcc32
+git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 $WORKING_DIR/gcc64
 
 # Change Directory to the Source Directry
 cd $WORKING_DIR/kernel
@@ -36,7 +37,7 @@ cd $WORKING_DIR/kernel
 # Build Info Variables
 DEVICE="RMX1805"
 DISTRO=$(source /etc/os-release && echo $NAME)
-COMPILER=$($WORKING_DIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/version//g' -e 's/  */ /g' -e 's/[[:space:]]*$//')
+COMPILER=$($WORKING_DIR/gcc64/bin/aarch64-linux-android-gcc --version | head -n 1)
 ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
 #Starting Compilation
@@ -46,25 +47,23 @@ export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export SUBARCH=arm64
-export ODM_WT_EDIT=yes
-export WT_FINAL_RELEASE=yes
-export PROJCT="18355"
-export PRJ_NAME="MSM_18355"
-export PATH=$WORKING_DIR/clang/bin/:/usr/bin:$PATH
+
+export PATH="$WORKING_DIR/gcc64/bin:$WORKING_DIR/gcc32/bin:/usr/bin:$PATH
 make O=out clean
 make O=out mrproper
 make O=out MSM_18355_msm8953-perf_defconfig
+BUILD_START=$(date +"%s")
 make -j$(nproc --all) O=out \
-      CC=clang \
-      CROSS_COMPILE=aarch64-linux-gnu- \
-      CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+      CC="ccache $WORKING_DIR/gcc64/bin/aarch64-linux-android-gcc" \
+      CROSS_COMPILE=aarch64-linux-android- \
+      CROSS_COMPILE_ARM32=arm-linux-androideabi- \
       2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
-if [ -e out/arch/arm64/boot/Image.gz-dtb ]; then
-cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
+if [ -e out/arch/arm64/boot/Image* ]; then
+cp out/arch/arm64/boot/Image* $WORKING_DIR/Anykernel
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
