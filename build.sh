@@ -48,7 +48,8 @@ export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export SUBARCH=arm64
 
-export PATH="$WORKING_DIR/gcc64/bin:$WORKING_DIR/gcc32/bin:/usr/bin:$PATH"
+export PATH=$WORKING_DIR/gcc64/bin:$WORKING_DIR/gcc32/bin:/usr/bin:$PATH
+mkdir -p out
 make O=out clean
 make O=out mrproper
 make O=out MSM_18355_msm8953-perf_defconfig
