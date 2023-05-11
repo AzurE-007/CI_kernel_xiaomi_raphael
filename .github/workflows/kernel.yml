@@ -6,12 +6,12 @@ on:
          REPO_LINK:
           description: "Kernel Tree Repo Link"
           required: true
-          default: "https://github.com/RMX-1805/kernel_realme_rmx1805"
+          default: "https://github.com/realme-kernel-opensource/realme_2_C1-AndroidP-kernel-source"
 
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "staging"
+          default: "master"
 
 env:
   REPO_LINK: ${{ github.event.inputs.REPO_LINK }}
@@ -26,7 +26,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Initializing build environment
         run: |
