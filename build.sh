@@ -27,8 +27,11 @@ git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKI
 # Cloning Kernel
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
 
+# Cloning Clang
+wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-9.0.0_r1/clang-4691093.tar.gz
+mkdir clang && tar -xf clang-4691093.tar.gz -C clang && rm -rf clang-4691093.tar.gz
+
 # Cloning GCC
-git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 $WORKING_DIR/gcc32
 git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 $WORKING_DIR/gcc64
 
 # Change Directory to the Source Directry
@@ -47,18 +50,17 @@ export KBUILD_BUILD_USER="AB"
 export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export SUBARCH=arm64
+export SUBARCH=arm64
+export PATH="$WORKING_DIR/clang/bin:$WORKING_DIR/gcc64/bin:/usr/bin:$PATH"
 
-export PATH=$WORKING_DIR/gcc64/bin:$WORKING_DIR/gcc32/bin:/usr/bin:$PATH
-mkdir -p out
-make O=out clean
-make O=out mrproper
-make O=out MSM_18355_msm8953-perf_defconfig
+make O=out ARCH=arm64 MSM_18355_msm8953-perf_defconfig
 BUILD_START=$(date +"%s")
 make -j$(nproc --all) O=out \
-      CC="ccache $WORKING_DIR/gcc64/bin/aarch64-linux-android-gcc" \
-      CROSS_COMPILE=aarch64-linux-android- \
-      CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-      2>&1 | tee out/error.txt
+                      ARCH=arm64 \
+                      CC=clang \
+                      CLANG_TRIPLE=aarch64-linux-gnu- \
+                      CROSS_COMPILE=aarch64-linux-android- \
+                      2>&1 | tee out/error.txt
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
