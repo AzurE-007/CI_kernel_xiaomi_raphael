@@ -51,6 +51,7 @@ export KBUILD_BUILD_HOST="Server"
 export ARCH=arm64
 export SUBARCH=arm64
 export SUBARCH=arm64
+sudo link /lib/libtinfo.so.6 /lib/libtinfo.so.5
 export PATH="$WORKING_DIR/clang/bin:$WORKING_DIR/gcc64/bin:/usr/bin:$PATH"
 
 make O=out ARCH=arm64 MSM_18355_msm8953-perf_defconfig
