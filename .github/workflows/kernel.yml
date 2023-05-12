@@ -6,7 +6,7 @@ on:
          REPO_LINK:
           description: "Kernel Tree Repo Link"
           required: true
-          default: "https://github.com/realme-kernel-opensource/realme_2_C1-AndroidP-kernel-source"
+          default: "https://github.com/RandomDumpYard/realme_2_C1-AndroidP-kernel-source"
 
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
