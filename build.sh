@@ -22,7 +22,7 @@ file() {
 }
 
 # Cloning Anykernel
-git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b main $WORKING_DIR/Anykernel
+git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b 1805 $WORKING_DIR/Anykernel
 
 # Cloning Kernel
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
