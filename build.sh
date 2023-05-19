@@ -52,7 +52,7 @@ export PATH=$WORKING_DIR/gcc64/bin:$WORKING_DIR/gcc32/bin:/usr/bin:$PATH
 mkdir -p out
 make O=out clean
 make O=out mrproper
-make O=out MSM_18355_stock_defconfig
+make O=out MSM_18355_msm8953-perf_defconfig
 BUILD_START=$(date +"%s")
 make -j$(nproc --all) O=out \
       CC="ccache $WORKING_DIR/gcc64/bin/aarch64-linux-android-gcc" \
