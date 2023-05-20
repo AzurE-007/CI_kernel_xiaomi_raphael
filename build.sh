@@ -43,9 +43,6 @@ DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/gcc64/bin/aarch64-linux-android-gcc --version | head -n 1)
 ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
 
-# Clean Out Directory 
-[ -d out ] && rm -rf out | mkdir -p out || mkdir -p out
-
 #Starting Compilation
 BUILD_START=$(date +"%s")
 msg "<b>$BUILD_ID CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Date : </b><code>$(TZ=Asia/Kolkata date)</code>%0A<b>Device : </b><code>$DEVICE</code>%0A<b>Compiler : </b><code>$COMPILER</code>%0A<b>Branch: </b><code>$BRANCH_NAME</code>"
@@ -78,7 +75,7 @@ DIFF=$((BUILD_END - BUILD_START))
 #Zipping & Uploading Flashable Kernel Zip
 if [ -e out/arch/arm64/boot/Image.gz-dtb ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
-find out/modules -type f -iname "*.ko" -exec cp {} $WORKING_DIR/Anykernel/modules/system/lib/modules/ \;
+cp out/modules/"*.ko" $WORKING_DIR/Anykernel/modules/system/lib/modules
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
