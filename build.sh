@@ -2,8 +2,11 @@
 
 set -e
 
-# Working Directory
-WORKING_DIR="$(pwd)"
+# Working Directory 
+WORKING_DIR=$(pwd)
+
+# Module Directory
+MODULE_DIR=/out/modules
 
 # Functions For Telegram Post
 msg() {
@@ -22,7 +25,7 @@ file() {
 }
 
 # Cloning Anykernel
-git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b 1805 $WORKING_DIR/Anykernel
+git clone --depth=1 https://github.com/back-up-git/AnyKernel3.git -b 1805-modules $WORKING_DIR/Anykernel
 
 # Cloning Kernel
 git clone --depth=1 $REPO_LINK -b $BRANCH_NAME $WORKING_DIR/kernel
@@ -39,6 +42,9 @@ DEVICE="RMX1805"
 DISTRO=$(source /etc/os-release && echo $NAME)
 COMPILER=$($WORKING_DIR/gcc64/bin/aarch64-linux-android-gcc --version | head -n 1)
 ZIP_NAME=RMX1805-$(TZ=Asia/Kolkata date +%Y%m%d-%H%M).zip
+
+# Clean Out Directory 
+[ -d out ] && rm -rf out | mkdir -p out || mkdir -p out
 
 #Starting Compilation
 BUILD_START=$(date +"%s")
@@ -59,12 +65,20 @@ make -j$(nproc --all) O=out \
       CROSS_COMPILE=aarch64-linux-android- \
       CROSS_COMPILE_ARM32=arm-linux-androideabi- \
       2>&1 | tee out/error.txt
+      
+if [[ $MODULE_DIR ]]; then
+	[ -d $MODULE_DIR ] && rm -rf $MODULE_DIR | mkdir -p $MODULE_DIR || mkdir -p $MODULE_DIR
+	echo "Making modules..."
+	make O=out ARCH=arm64 INSTALL_MOD_PATH=$MODULE_DIR INSTALL_MOD_STRIP=1 modules_install || exit
+	echo "Done."
+fi
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
 #Zipping & Uploading Flashable Kernel Zip
 if [ -e out/arch/arm64/boot/Image.gz-dtb ]; then
 cp out/arch/arm64/boot/Image.gz-dtb $WORKING_DIR/Anykernel
+find out/modules -type f -iname "*.ko" -exec cp {} $WORKING_DIR/Anykernel/modules/system/lib/modules/ \;
 cd $WORKING_DIR/Anykernel
 zip -r9 $ZIP_NAME * -x .git README.md *placeholder
 file "$ZIP_NAME" "*Build Completed :* $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
