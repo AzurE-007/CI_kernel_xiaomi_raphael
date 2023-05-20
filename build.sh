@@ -63,12 +63,10 @@ make -j$(nproc --all) O=out \
       CROSS_COMPILE_ARM32=arm-linux-androideabi- \
       2>&1 | tee out/error.txt
       
-if [[ $MODULE_DIR ]]; then
-	[ -d $MODULE_DIR ] && rm -rf $MODULE_DIR | mkdir -p $MODULE_DIR || mkdir -p $MODULE_DIR
 	echo "Making modules..."
 	make O=out ARCH=arm64 INSTALL_MOD_PATH=$MODULE_DIR INSTALL_MOD_STRIP=1 modules_install || exit
 	echo "Done."
-fi
+
 BUILD_END=$(date +"%s")
 DIFF=$((BUILD_END - BUILD_START))
 
