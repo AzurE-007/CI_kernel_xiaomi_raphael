@@ -6,7 +6,7 @@ on:
          BRANCH_NAME:
           description: "Kernel Tree Branch Name"
           required: true
-          default: "topaz"
+          default: "LA.UM.9.1.r1-12900-SMxxx0.QSSI13.0"
 
 env:
   BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
@@ -22,7 +22,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Initializing build environment
         run: |
